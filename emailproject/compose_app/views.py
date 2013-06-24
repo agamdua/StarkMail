@@ -18,8 +18,10 @@ def compose(request):
             send_mail(subject, mail_content, sender, recipients)
             return HttpResponseRedirect('/thanks/') # Redirect after post
 
-        else:
-            form = ComposeMessage() # An unbound form
+    else:
+        form = ComposeMessage() # An unbound form
         
-        return
+    return render(request, 'compose.html', {
+        'form': form,
+        })
 
