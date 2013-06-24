@@ -1,4 +1,4 @@
-
+# Just to ignore python executables
 *.py[cod]
 
 # C extensions
