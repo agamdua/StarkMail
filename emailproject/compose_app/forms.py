@@ -5,4 +5,4 @@ class ComposeMessage(forms.Form):
     # cc = forms.CharField()
     # bcc = forms.CharField()
     subject = forms.CharField()
-    mail_content = forms.TextField()
+    mail_content = forms.CharField(widget = forms.Textarea)
