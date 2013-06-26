@@ -111,7 +111,8 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "~/ProgrammingPractice/Python/Django/StarkMail/emailproject/emailproject/compose_app/templates"
+    "~/ProgrammingPractice/Python/Django/StarkMail/emailproject/compose_app/templates",
+    "~/ProgrammingPracice/Python/Django/StarkMail/emailproject/emailproject/templates"
 )
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
