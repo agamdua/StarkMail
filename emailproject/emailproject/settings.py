@@ -111,8 +111,8 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "~/ProgrammingPractice/Python/Django/StarkMail/emailproject/compose_app/templates",
-    "~/ProgrammingPracice/Python/Django/StarkMail/emailproject/emailproject/templates"
+    "/Users/agamdua/ProgrammingPractice/Python/Django/StarkMail/emailproject/compose_app/templates",
+    "/Users/agamdua/ProgrammingPracice/Python/Django/StarkMail/emailproject/emailproject/templates"
 )
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -129,7 +129,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'compose_app'
+    'compose_app',
+    'register_app',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
