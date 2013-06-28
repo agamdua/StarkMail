@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from forms import UserCreateForm
 from django.template import RequestContext
+from django.contrib.auth import authenticate
 
 def post(request):
 
@@ -11,7 +12,7 @@ def post(request):
     
     if user_form.is_valid():
         username = user_form.clean_username()
-        password = user.form.clean_password2()
+        password = user_form.clean_password2()
         user_form.save()
         user = authenticate(username=username, password=password)
         login(request, user)
