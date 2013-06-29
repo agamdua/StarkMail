@@ -5,16 +5,13 @@
     </head>
 
     <body>
-        
-        <form  method="post">
-
-            {% csrf_token %}
-
+            
+            {{ login_form.as_p }}
             {{ user_form.as_p }}
 
-            <input type="submit" value="Register" />
 
-        </form>
+        {% include 'login_form.html' %}        
+        {% include 'register_form.html' %}
 
     </body>
 

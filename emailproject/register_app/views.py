@@ -1,6 +1,6 @@
 # Create your views here.
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from forms import UserCreateForm
 from django.template import RequestContext
@@ -21,8 +21,11 @@ def post(request):
 
     else:
         user_form = UserCreateForm()
+    
+    context_register = {
+        'user_form' : user_form,
+        }
 
-    return render_to_response('base.html', {
-        'user_form' : user_form },
-        context_instance=RequestContext(request))
+    return render(request, 'base.html', context_register)
+    # return RequestContext(request, context_register)
 
