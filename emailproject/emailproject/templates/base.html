@@ -6,7 +6,15 @@
 
     <body>
         
-        {% include "register_form.html" %}
+        <form  method="post">
+
+            {% csrf_token %}
+
+            {{ user_form.as_p }}
+
+            <input type="submit" value="Register" />
+
+        </form>
 
     </body>
 
