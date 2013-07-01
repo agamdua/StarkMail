@@ -4,8 +4,8 @@ from login_app.views import login
 
 def home(request):
     
-    user_register = post(request)
-    user_login = login(request)
+    user_form = post(request)
+    login_form = login(request)
      
     context_home = {
         'user_form' : user_form,
