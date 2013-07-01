@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from forms import UserCreateForm
 from django.template import RequestContext
 from django.contrib.auth import authenticate, login
+from django.template.response import TemplateResponse
 
 def post(request):
 
@@ -26,6 +27,6 @@ def post(request):
         'user_form' : user_form,
         }
 
-    return render(request, 'base.html', context_register)
+    return TemplateResponse(request, 'register_form.html', context_register)
     # return RequestContext(request, context_register)
 
