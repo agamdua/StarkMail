@@ -13,7 +13,7 @@ def compose(request):
 
         if form.is_valid():
             subject = form.cleaned_data['subject']
-            mail_content = form.cleaned_data['mail_content']
+            mail_text = form.cleaned_data['mail_text']
             to = form.cleaned_data['to']
             recipients.append(to)
             # recipients.append(cc)
@@ -22,7 +22,7 @@ def compose(request):
 
             form.save()
                 
-            send_mail(subject, mail_content, sender, recipients)
+            send_mail(subject, mail_text, sender, recipients)
             return HttpResponseRedirect('/compose/') # Redirect after post
 
     else:
