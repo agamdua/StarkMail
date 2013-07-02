@@ -1,8 +1,6 @@
-from django import forms
+from django.forms import ModelForm
+from .models import ComposeModel
 
-class ComposeMessage(forms.Form):
-    to = forms.CharField()
-    # cc = forms.CharField()
-    # bcc = forms.CharField()
-    subject = forms.CharField()
-    mail_content = forms.CharField(widget = forms.Textarea)
+class ComposeForm(ModelForm):
+	class Meta:
+		model = ComposeModel

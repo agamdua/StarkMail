@@ -2,14 +2,14 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
-from forms import ComposeMessage
+from forms import ComposeForm
 
 def compose(request):
     
     recipients = []
 
     if request.method == 'POST':
-        form = ComposeMessage(request.POST)
+        form = ComposeForm(request.POST)
 
         if form.is_valid():
             subject = form.cleaned_data['subject']
@@ -19,12 +19,14 @@ def compose(request):
             # recipients.append(cc)
             # recipients.append(bcc)
             sender = 'agamdua@gmail.com' # Hard coding user email
+
+            form.save()
                 
             send_mail(subject, mail_content, sender, recipients)
             return HttpResponseRedirect('/compose/') # Redirect after post
 
     else:
-        form = ComposeMessage() # An unbound form
+        form = ComposeForm() # An unbound form
         
     return render(request, 'compose.html', {
         'form': form,

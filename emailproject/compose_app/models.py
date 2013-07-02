@@ -4,7 +4,10 @@ from django.db import models
 
 class ComposeModel(models.Model):
     to = models.TextField()
-    # cc
-    # bcc
+    cc = models.TextField()
+    bcc = models.TextField()
     subject = models.CharField(max_length=100)
-    mail_content = models.TextField()
+    mail_text = models.TextField()
+
+
+
