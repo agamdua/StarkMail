@@ -3,7 +3,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from forms import UserLoginForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, logout, authenticate
 from django.template.response import TemplateResponse
 
 def login_view(request):
@@ -34,3 +34,7 @@ def login_view(request):
 
     return TemplateResponse(request, 'login_form.html', context_login)
     # return RequestContext(request, context_login)
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/login/')

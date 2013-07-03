@@ -11,7 +11,9 @@ urlpatterns = patterns('',
     # url(r'^emailproject/', include('emailproject.foo.urls')),
     url(r'^compose/', 'compose_app.views.compose', name='compose'),
     url(r'^register/', 'register_app.views.post', name='register'),
-    url(r'^login/', 'login_app.views.login_view', name='login')
+    url(r'^login/', 'login_app.views.login_view', name='login'),
+    url(r'^logout/', 'login_app.views.logout_view', name='logout'),
+
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
