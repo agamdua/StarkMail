@@ -1,6 +1,9 @@
 # Just to ignore python executables
 *.py[cod]
 
+# SQLite database
+maildb
+
 # C extensions
 *.so
 

@@ -3,21 +3,32 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from forms import UserLoginForm
-from django.template import RequestContext
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.template.response import TemplateResponse
 
-def login(request):
+def login_view(request):
     
     if request.method == 'POST':
-        login_form = UserLoginForm(request.POST)
+        login_form = UserLoginForm(request=request, data=request.POST)
 
-        if login_form.is_valid():
-            login(request, user_form.get_user())
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+        
+        # set_password(password)
+
+        user = authenticate(username=username, password=password)
+
+        if login_form.is_valid:
+            login(request, user)
             return HttpResponseRedirect('/compose/')
+            
+        # else:
+        #     return HttpResponseRedirect('/')
+
 
     else:
         login_form = UserLoginForm()
+
 
     context_login = { 'login_form' : login_form }
 
