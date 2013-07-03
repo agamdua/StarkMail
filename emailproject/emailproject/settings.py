@@ -139,7 +139,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 )
 
-# LOGIN_URL = '/'
+LOGIN_URL = '/login/'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
