@@ -1,6 +1,9 @@
 # Just to ignore python executables
 *.py[cod]
 
+# File with credentials (untracked)
+untracked.py
+
 # SQLite database
 maildb
 
