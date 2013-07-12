@@ -1,9 +1,5 @@
-<form  method="post">
+{% extends "base.html" %}
 
-    {% csrf_token %}
-
-    {{ login_form.as_p }}
-
-    <input type="submit" value="Login" />
-
-</form>
+{% block content %}
+    {% include "snippets/_login.html" %}
+{% endblock content %}

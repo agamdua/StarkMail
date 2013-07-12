@@ -2,30 +2,33 @@
 
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from forms import UserCreateForm
 from django.template import RequestContext
 from django.contrib.auth import authenticate, login
 from django.template.response import TemplateResponse
 
+from .forms import UserCreateForm
+
+# TODO: use the require post
 def post(request):
 
-    if request.method == 'POST':
-        user_form = UserCreateForm(request.POST)
-    
-        if user_form.is_valid():
-            username = user_form.clean_username()
-            password = user_form.clean_password2()
-            user_form.save()
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            return HttpResponseRedirect('/compose/')
+    form = UserCreateForm(request.POST)
 
-    else:
-        user_form = UserCreateForm()
+    if form.is_valid():
+
+        cleaned_data = form.cleaned_data
+        username = cleaned_data['username']
+        password = cleaned_data['password']
+        form.save(commit=True)
+        user = authenticate(username=username, password=password)
+        login(request, user)
+
+        # TODO: use reverse over here
+        return HttpResponseRedirect('/compose/')
+
     
     context_register = {
-        'user_form' : user_form,
-        }
+        'form' : form,
+    }
 
     return TemplateResponse(request, 'register_form.html', context_register)
     # return RequestContext(request, context_register)
