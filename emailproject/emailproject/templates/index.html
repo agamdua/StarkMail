@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3> hello, welcome to Stark Mail</h3>
+
+    <div>
+        {% include "snippets/_login.html" with form=login_form %}
+    </div>
+
+    <div>
+        {% include "snippets/_register.html" with form=register_form %}
+    </div>
+
+{% endblock content %}

@@ -23,7 +23,7 @@ def login_view(request):
         'form': form 
     }
 
-    return TemplateResponse(request, 'login_form.html', context)
+    return render(request, 'login_form.html', context)
 
 def logout_view(request):
 
