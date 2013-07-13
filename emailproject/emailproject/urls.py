@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^register/', 'register_app.views.post', name='register'),
     url(r'^login/', 'login_app.views.login_view', name='login'),
     url(r'^logout/', 'login_app.views.logout_view', name='logout'),
+    url(r'^inbox/', 'inbox_app.views.inbox_view', name='inbox')
 
 
     # Uncomment the admin/doc line below to enable admin documentation:

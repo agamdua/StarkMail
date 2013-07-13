@@ -17,7 +17,7 @@ def post(request):
 
         cleaned_data = form.cleaned_data
         username = cleaned_data['username']
-        password = cleaned_data['password']
+        password = cleaned_data['password2']
         form.save(commit=True)
         user = authenticate(username=username, password=password)
         login(request, user)

@@ -14,15 +14,21 @@ def login_view(request):
     form = UserLoginForm(request=request, data=request.POST)
 
     if form.is_valid():
-        login(request, request.user)
-
-        # TODO: Use reverser over here
-        return HttpResponseRedirect('/compose/')
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                
+                # TODO: Use reverser over here
+                return HttpResponseRedirect('/compose/')
         
     context = { 
         'form': form 
     }
 
+    request.session.set_test_cookie()
     return render(request, 'login_form.html', context)
 
 def logout_view(request):

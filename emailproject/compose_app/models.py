@@ -8,6 +8,7 @@ class ComposeModel(models.Model):
     bcc = models.TextField()
     subject = models.CharField(max_length=100)
     mail_text = models.TextField()
+    # timestamp = models.DateTimeField(auto_now_add=True)
 
 
 
