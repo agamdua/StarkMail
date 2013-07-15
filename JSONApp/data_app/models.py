@@ -24,6 +24,30 @@ class SubtopicID(models.Model):
 	t_id=models.ForeignKey(TopicID)
 	subtopic_name=models.CharField(max_length=200)
 
+class Content(models.Model):
+	sb_id=models.ForeignKey(SubjectID)
+	difficulty_level=models.CharField(max_length=20, primary_key=True)
+	introduction=models.TextField()
+	concept=models.TextField() 
+	reinforcement=models.TextField()
+	summary=models.TextField()
+
+class Examples(models.Model):
+	sb_id=models.ForeignKey(SubjectID)
+	diff_level=models.ForeignKey(Content)
+	example=model.TextField()
+
+class QuestionID(models.Model):
+	question_id=models.CharField(max_length=20, primary_key=True)
+	sb_id=models.ForeignKey(SubjectID)
+	level=models.CharField(max_length=100)
+	clone_number=models.CharField(max_length=20)
+	actual_question=models.TextField()
+	option1=models.TextField()
+	option2=models.TextField()
+	option3=models.TextField()
+	option4=models.TextField()
+	correct_answer=models.CharField(max_length=20)
 
 
 
