@@ -35,7 +35,7 @@ class Content(models.Model):
 class Examples(models.Model):
 	sb_id=models.ForeignKey(SubjectID)
 	diff_level=models.ForeignKey(Content)
-	example=model.TextField()
+	example=models.TextField()
 
 class QuestionID(models.Model):
 	question_id=models.CharField(max_length=20, primary_key=True)
