@@ -1,5 +1,18 @@
 from django.db import models
 
+class StudentUID(models.Model):
+	user_id=models.CharField(max_length=20, primary_key=True)
+	last_name=models.CharField(max_length=100)
+	middle_name=models.CharField(max_length=100)
+	first_name=models.CharField(max_length=100)
+	#date_of_birth=
+	gender=models.CharField(max_length=20)
+	#profile_picture=models.
+	email_id=models.EmailField(max_length=100)
+
+class Login(models.Model):
+	u_id=models.ForeignKey(StudentUID)
+	#hashed_pass=models.
 
 class CourseID(models.Model):
 	course_id=models.CharField(max_length=20, primary_key=True)
@@ -48,6 +61,7 @@ class QuestionID(models.Model):
 	option3=models.TextField()
 	option4=models.TextField()
 	correct_answer=models.CharField(max_length=20)
+
 
 
 
