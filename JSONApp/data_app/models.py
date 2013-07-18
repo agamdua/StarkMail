@@ -14,6 +14,8 @@ class Login(models.Model):
 	u_id=models.ForeignKey(StudentUID)
 	#hashed_pass=models.
 
+
+
 class CourseID(models.Model):
 	course_id=models.CharField(max_length=20, primary_key=True)
 	course_name=models.CharField(max_length=100)
@@ -36,6 +38,8 @@ class SubtopicID(models.Model):
 	s_id=models.ForeignKey(SubjectID)
 	t_id=models.ForeignKey(TopicID)
 	subtopic_name=models.CharField(max_length=200)
+
+
 
 class Content(models.Model):
 	sb_id=models.ForeignKey(SubjectID)
@@ -62,6 +66,39 @@ class QuestionID(models.Model):
 	option4=models.TextField()
 	correct_answer=models.CharField(max_length=20)
 
+class StudentAnalyticsID(models.Model):
+	student_analytics_p_id=models.CharField(max_length=20, primary_key=True)
+	student_u_id=models.ForeignKey(StudentUID)	
+	student_subtopic_id=models.ForeignKey(Content)
+	s_diff_level=models.CharField(max_length=10)
+	s_clone_no=models.IntegerField(max_length=10)
+	s_time_stamp=models.DateTimeField(auto_now_add=True)
+	s_current_correct=models.IntegerField(max_length=20)
+	#s_content_backtrack=models.
+
+class StudentAnswer(models.Model):
+	student_answer_p_id=models.ForeignKey(StudentAnalyticsID)
+	question_number=models.IntegerField(max_length=20)
+	s_selected_option=models.CharField(max_length=10)
+	s_correct_answer=models.ForeignKey(QuestionID)
+
+class CloneTime(models.Model):
+	clone_p_id=models.ForeignKey(StudentAnalyticsID)
+	clone_time=models.DateTimeField()
+
+class Hit_table(models.Model):
+	h_u_id=models.ForeignKey(StudentUID)
+	h_subtpoic_id=models.ForeignKey(SubtopicID)
+	h_level=models.CharField(max_length=10)
+	hits=models.IntegerField(max_length=20)
+
+class Fallback_Pushup(models.Model):
+	fp_uid=models.ForeignKey(StudentUID)
+	fp_subtopic_id=models.ForeignKey(SubtopicID)
+	fallbacks=models.IntegerField(max_length=10)
+	pushups=models.IntegerField(max_length=10)
+	time_on_content=models.DateTimeField()
+	total_time=models.DateTimeField()
 
 
 
