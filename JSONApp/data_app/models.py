@@ -5,14 +5,14 @@ class StudentUID(models.Model):
 	last_name=models.CharField(max_length=100)
 	middle_name=models.CharField(max_length=100)
 	first_name=models.CharField(max_length=100)
-	#date_of_birth=
+	date_of_birth=models.DateTimeField()
 	gender=models.CharField(max_length=20)
-	#profile_picture=models.
+	profile_picture=models.upload_to("Student Profile Pictures")
 	email_id=models.EmailField(max_length=100)
 
 class Login(models.Model):
 	u_id=models.ForeignKey(StudentUID)
-	#hashed_pass=models.
+	hashed_pass=models.TextField()
 
 
 
@@ -71,14 +71,14 @@ class StudentAnalyticsID(models.Model):
 	student_u_id=models.ForeignKey(StudentUID)	
 	student_subtopic_id=models.ForeignKey(Content)
 	s_diff_level=models.CharField(max_length=10)
-	s_clone_no=models.IntegerField(max_length=10)
+	s_clone_no=models.IntegerField()
 	s_time_stamp=models.DateTimeField(auto_now_add=True)
-	s_current_correct=models.IntegerField(max_length=20)
-	#s_content_backtrack=models.
+	s_current_correct=models.IntegerField()
+	s_content_backtrack=models.IntegerField()
 
 class StudentAnswer(models.Model):
 	student_answer_p_id=models.ForeignKey(StudentAnalyticsID)
-	question_number=models.IntegerField(max_length=20)
+	question_number=models.IntegerField()
 	s_selected_option=models.CharField(max_length=10)
 	s_correct_answer=models.ForeignKey(QuestionID)
 
@@ -90,13 +90,13 @@ class Hit_table(models.Model):
 	h_u_id=models.ForeignKey(StudentUID)
 	h_subtpoic_id=models.ForeignKey(SubtopicID)
 	h_level=models.CharField(max_length=10)
-	hits=models.IntegerField(max_length=20)
+	hits=models.IntegerField()
 
 class Fallback_Pushup(models.Model):
 	fp_uid=models.ForeignKey(StudentUID)
 	fp_subtopic_id=models.ForeignKey(SubtopicID)
-	fallbacks=models.IntegerField(max_length=10)
-	pushups=models.IntegerField(max_length=10)
+	fallbacks=models.IntegerField()
+	pushups=models.IntegerField()
 	time_on_content=models.DateTimeField()
 	total_time=models.DateTimeField()
 
