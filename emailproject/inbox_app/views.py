@@ -8,7 +8,7 @@ def on_incoming_emails(request):
 		sender = request.POST.get('sender')
 		recipient = request.POST.get('recipient')
 		subject = request.POST.get('subject', '')
-		body_plain = request.POST.get('body-plain', '')
+		body_plain = request.POST.get('bodyi-plain', '')
 
 		final_incoming_mail = InboxModels(sender=sender, recipient=recipient, subject=subject, mail_text=body_plain)
 
