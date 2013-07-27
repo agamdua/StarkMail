@@ -1,142 +1,181 @@
 from django.db import models
+#from django.conf import settings
+#from django.contrib.auth.models import AbstractUser
 
+class Student(models.Model):
+    GENDER_CHOICES = (
+        ('F', 'FEMALE'),
+        ('M', 'MALE'),
+    )
 
-class StudentUID(models.Model):
-    GENDER_CHOICES = (('F', 'FEMALE'),
-                      ('M', 'MALE'))
-    user_id = models.TextField(primary_key=True)  # unix time-stamp
-    last_name = models.CharField(max_length=30)
-    middle_name = models.CharField(max_length=30)
-    first_name = models.CharField(max_length=30)
-    date_of_birth = models.DateTimeField()
-    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
-    profile_picture = models.FileField(upload_to="Student Profile Pictures")
-    email_id = models.EmailField(unique=True)
+    UID = models.IntegerField(
+        primary_key=True)  # should be a combination of Publisher ID + Course ID + student rollno as padding with generic size.
+    FirstName = models.CharField(max_length=30)
+    MiddleName = models.CharField(max_length=30, blank=True)
+    LastName = models.CharField(max_length=30)
+    Date_Of_Birth = models.DateField(auto_now_add=True)
+    Gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+    Profile_Pic = models.FileField(upload_to='Student_profile_pictures', blank=True)
+    EmailID = models.EmailField(max_length=255, unique=True)
 
     def __unicode__(self):
-        return u"%s %s  %s" % (self.first_name, self.middle_name, self.last_name)
+        return u"%s %s  %s" % (self.FirstName, self.MiddleName, self.LastName)
 
 
 class Login(models.Model):
-    u_id = models.ForeignKey(StudentUID)
-    hashed_pass = models.TextField()
+    student_id = models.ForeignKey(Student)
+    Hashed_Pass = models.TextField(unique=True)
 
 
-class CourseID(models.Model):
-    course_id = models.TextField(primary_key=True)
-    course_name = models.CharField(max_length=100)
-
-    def __unicode__(self):
-        return u"%s" % self.course_name
-
-
-class SubjectID(models.Model):
-    subject_id = models.TextField(primary_key=True)
-    c_id = models.ForeignKey(CourseID)
-    subject_name = models.CharField(max_length=100)
+class CourseList(models.Model):
+    CourseID = models.IntegerField(primary_key=True) # must be assigned using mapping Refrence table of course
+    CourseName = models.CharField(max_length=100)
 
     def __unicode__(self):
-        return u"%s" % self.subject_name
+        return u"%s" % (self.CourseName)
 
 
-class TopicID(models.Model):
-    topic_id = models.TextField(primary_key=True)
-    c_id = models.ForeignKey(CourseID)
-    s_id = models.ForeignKey(SubjectID)
-    topic_name = models.CharField(max_length=100)
-    topic_description = models.CharField(max_length=1000)
+class SubjectList(models.Model):
+    Course = models.ForeignKey(CourseList)
+    SubjectID = models.IntegerField(primary_key=True) # Will be assigned using mapping refrence table
+    SubjectName = models.CharField(max_length=100)
 
     def __unicode__(self):
-        return u"%s" % self.topic_name
+        return u"%s" % (self.SubjectName)
 
 
-class SubtopicID(models.Model):
-    subtopic_id = models.TextField(primary_key=True)
-    c_id = models.ForeignKey(CourseID)
-    s_id = models.ForeignKey(SubjectID)
-    t_id = models.ForeignKey(TopicID)
-    subtopic_name = models.CharField(max_length=200)
+class TopicList(models.Model):
+    Course = models.ForeignKey(CourseList)
+    Subject = models.ForeignKey(SubjectList)
+    TopicID = models.IntegerField(primary_key=True)
+    TopicName = models.CharField(max_length=100)
+    Description = models.TextField()
 
     def __unicode__(self):
-        return u"%s" % self.subtopic_name
+        return u"%s" % (self.TopicName)
+
+
+class SubtopicList(models.Model):
+    Course = models.ForeignKey(CourseList)
+    Subject = models.ForeignKey(SubjectList)
+    Topic = models.ForeignKey(TopicList)
+    SubtopicID = models.IntegerField(primary_key=True)
+    SubtopicName = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return u"%s" % (self.SubtopicName)
 
 
 class Content(models.Model):
-    sb_id = models.ForeignKey(SubjectID)
-    difficulty_level = models.CharField(primary_key=True)
-    introduction = models.TextField()
-    concept = models.TextField()
-    reinforcement = models.TextField()
-    summary = models.TextField()
+    DIFFICULTY_CHOICES = (
+        ('E', 'EASY'),
+        ('M', 'MEDIUM'),
+        ('H', 'HARD'),
+        ('A', 'ADVANCED'),
 
+    )
 
-class Examples(models.Model):
-    sb_id = models.ForeignKey(SubjectID)
-    diff_level = models.ForeignKey(Content)
-    example = models.TextField()
+    Subtopic = models.ForeignKey(SubtopicList)
+    DifficultyLevel = models.CharField(max_length=1, choices=DIFFICULTY_CHOICES)
+    Introduction = models.TextField()
+    Concept = models.TextField()
+    Reinforcement = models.TextField()
+    Summary = models.TextField()
 
     def __unicode__(self):
-        return u"%s" % self.example
+        return u"%s" % (self.DifficultyLevel)
 
 
-class QuestionID(models.Model):
-    LEVEL_CHOICES = (('E', 'EASY'),
-                     ('M', 'MEDIUM'),
-                     ('H', 'HARD'),
-                     ('A', 'ADVANCE'))
-
-    question_id = models.TextField(primary_key=True)
-    sb_id = models.ForeignKey(SubjectID)
-    level = models.CharField(choices=LEVEL_CHOICES)
-    clone_number = models.CharField(max_length=20)
-    actual_question = models.TextField()
-    option1 = models.TextField()
-    option2 = models.TextField()
-    option3 = models.TextField()
-    option4 = models.TextField()
-    correct_answer = models.CharField(max_length=20)
+class Example(models.Model):
+    Content = models.ForeignKey(Content)  # Here Content table is referenced using Primary Key id of content table.
+    Example = models.TextField()
 
 
-class StudentAnalyticsID(models.Model):
-    student_analytics_p_id = models.TextField(primary_key=True)
-    student_u_id = models.ForeignKey(StudentUID)
-    student_subtopic_id = models.ForeignKey(Content)
-    s_diff_level = models.CharField(max_length=10)
-    s_clone_no = models.IntegerField()
-    s_time_stamp = models.DateTimeField(auto_now_add=True)
-    s_current_correct = models.IntegerField()
-    s_content_backtrack = models.IntegerField()
+class Question(models.Model):
+    LEVEL_CHOICES = (
+        ('E', 'EASY'),
+        ('M', 'MEDIUM'),
+        ('H', 'HARD'),
+        ('A', 'ADVANCED'),
+
+    )
+
+    OPTION_CHOICES = (
+        ('A', 'Option1'),
+        ('B', 'Option2'),
+        ('C', 'Option3'),
+        ('D', 'Option4'),
+    )
+
+    QuestionID = models.AutoField(primary_key=True)
+    Subtopic = models.ForeignKey(SubtopicList)
+    Level = models.CharField(max_length=1, choices=LEVEL_CHOICES)
+    CloneNumber = models.IntegerField()
+    ActualQuestion = models.TextField()
+    Option1 = models.TextField()
+    Option2 = models.TextField()
+    Option3 = models.TextField()
+    Option4 = models.TextField()
+    CorrectAnswer = models.CharField(max_length=1, choices=OPTION_CHOICES)
+
+    def __unicode__(self):
+        return self.QuestionID
+
+
+class StudentAnalytics(models.Model):
+    LEVEL_CHOICES = (
+        ('E', 'EASY'),
+        ('M', 'MEDIUM'),
+        ('H', 'HARD'),
+        ('A', 'ADVANCED'),
+
+    )
+
+    ProgressID = models.AutoField(primary_key=True)
+    UID = models.ForeignKey(Student)
+    SubtopicID = models.ForeignKey(SubtopicList)
+    Level = models.CharField(max_length=1, choices=LEVEL_CHOICES)
+    CloneNumber = models.IntegerField()
+    TimeStamp = models.DateTimeField()
+    CurrentCorrect = models.IntegerField()
+    ContentBacktrack = models.IntegerField()
+
+    def __unicode__(self):
+        return self.ProgressID
 
 
 class StudentAnswer(models.Model):
-    student_answer_p_id = models.ForeignKey(StudentAnalyticsID)
-    question_number = models.IntegerField()
-    s_selected_option = models.TextField()
-    s_correct_answer = models.ForeignKey(QuestionID)
+    ProgressID = models.ForeignKey(StudentAnalytics)
+    #	Question = models.ForeignKey(Question)
+    SelectedOption = models.CharField(max_length=1)
+    CorrectAnswer = models.ForeignKey(Question)
+
+    def __unicode__(self):
+        return self.ProgressID
 
 
 class CloneTime(models.Model):
-    clone_p_id = models.ForeignKey(StudentAnalyticsID)
-    clone_time = models.DateTimeField()
+    ProgressID = models.ForeignKey(StudentAnalytics)
+    CloneTime = models.TimeField()
+
+    def __unicode__(self):
+        return self.ProgressID
 
 
-class HitTable(models.Model):
-    h_u_id = models.ForeignKey(StudentUID)
-    h_subtopic_id = models.ForeignKey(SubtopicID)
-    h_level = models.CharField(max_length=10)
+class Hit_table(models.Model):
+    UID = models.ForeignKey(Student)
+    subtopic = models.ForeignKey(SubtopicList)
+    level = models.CharField(max_length=1)
     hits = models.IntegerField()
 
 
 class FallbackPushup(models.Model):
-    fp_uid = models.ForeignKey(StudentUID)
-    fp_subtopic_id = models.ForeignKey(SubtopicID)
-    fallbacks = models.IntegerField()
-    pushups = models.IntegerField()
-    time_on_content = models.DateTimeField()
-    total_time = models.DateTimeField()
+    UID = models.ForeignKey(Student)
+    SubtopicID = models.ForeignKey(SubtopicList)
+    Fallbacks = models.IntegerField()
+    Pushups = models.IntegerField()
+    TimeOnContent = models.TimeField()
+    TotalTime = models.TimeField()
 
-
-class TeacherUID(models.Model):
-    teacher_uid = models.TextField()
-    teacher_name = models.TextField()
-
+    def __unicode__(self):
+        return u"Fallbacks %s and Pushups %s" % (self.Fallbacks, self.Pushups)
